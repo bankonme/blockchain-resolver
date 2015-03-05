@@ -197,7 +197,7 @@ forward-zone:
 
             # NOTE: We do not require secure DNS resolution here because the Blockchain-stored DS records work as the trust anchor
             # and the signed RRSIG DNS results from the final DNS+DNSSEC lookup will be able to complete the chain of trust
-            if status == 0 and result and not result.bogus:
+            if status == 0 and result and result.data and not result.bogus:
                 tmp_config_file = self._build_temp_unbound_config(sld, result.data.as_address_list()[0])
             else:
                 last_error = InvalidNameserverException()
