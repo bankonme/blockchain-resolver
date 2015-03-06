@@ -237,7 +237,7 @@ forward-zone:
                     if qtype in ['A','AAAA']:
                         lookup_value = result.data.as_address_list()
                     elif qtype in ['CNAME','TXT']:
-                        lookup_value = str.split(result.data.as_domain_list()[0])
+                        lookup_value = result.data.as_domain_list()
                     elif qtype in ['MX']:
                         lookup_value = result.data.as_mx_list()
                     else:
