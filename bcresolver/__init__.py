@@ -147,6 +147,7 @@ forward-zone:
 
         client = NamecoinClient(
             host=self.host,
+            port=self.port,
             user=self.user,
             password=self.password,
             timeout=60
