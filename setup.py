@@ -17,7 +17,7 @@ setup(
     tests_require=test_requires,
     test_suite='tests',
     url='https://github.com/netkicorp/blockchain-resolver',
-    download_url='https://github.com/netkicorp/blockchain-resolver/tarball/0.0.1',
+    download_url='https://github.com/netkicorp/blockchain-resolver/tarball/0.0.2',
     platforms=['any'],
     license='BSD',
     author='mdavid',
