@@ -11,7 +11,7 @@ test_requires = [
 
 setup(
     name='bcresolver',
-    version='0.0.1',
+    version='0.0.2',
     packages=['bcresolver'],
     install_requires=install_requires,
     tests_require=test_requires,
