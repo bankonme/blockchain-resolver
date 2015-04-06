@@ -11,13 +11,13 @@ test_requires = [
 
 setup(
     name='bcresolver',
-    version='0.0.2',
+    version='0.0.3',
     packages=['bcresolver'],
     install_requires=install_requires,
     tests_require=test_requires,
     test_suite='tests',
     url='https://github.com/netkicorp/blockchain-resolver',
-    download_url='https://github.com/netkicorp/blockchain-resolver/tarball/0.0.2',
+    download_url='https://github.com/netkicorp/blockchain-resolver/tarball/0.0.3',
     platforms=['any'],
     license='BSD',
     author='mdavid',

@@ -36,8 +36,31 @@ class BogusResultException(BaseException):
 class EmptyResultException(BaseException):
     pass
 
+class LocalNamecoinResolver:
+
+    def __init__(self, host, user, password, port):
+
+        self.host = host if host else '127.0.0.1'
+        self.user = user if user else ''
+        self.password = password if password else ''
+        self.port = port if port else 8336
+
+    def name_show(self, name):
+
+        client = NamecoinClient(
+            host=self.host,
+            port=self.port,
+            user=self.user,
+            password=self.password,
+            timeout=60
+        )
+
+        # Get Namecoin-based Domain Info from Namecoin Blockchain
+        return client.get_domain(name)
+
 class NamecoinResolver:
-    def __init__(self, resolv_conf='/etc/resolv.conf', dnssec_root_key='/usr/local/etc/unbound/root.key', host=None, user=None, password=None, port=8336, temp_dir=None):
+
+    def __init__(self, resolv_conf='/etc/resolv.conf', dnssec_root_key='/usr/local/etc/unbound/root.key', host=None, user=None, password=None, port=8336, temp_dir=None, nc_name_resolver=LocalNamecoinResolver):
         '''
 
         Initialize a NamecoinResolver object
@@ -52,11 +75,8 @@ class NamecoinResolver:
 
         self.resolv_conf = resolv_conf
         self.dnssec_root_key = dnssec_root_key
-        self.host = host if host else '127.0.0.1'
-        self.user = user if user else ''
-        self.password = password if password else ''
-        self.port = port if port else 8336
         self.temp_dir = temp_dir
+        self.nc_name_resolver = nc_name_resolver(host, user, password, port)
 
     def _build_temp_unbound_config(self, zone, nameserver):
         '''
@@ -145,16 +165,8 @@ forward-zone:
         if len(domains) < 2:
             raise ValueError('At least SLD Required')
 
-        client = NamecoinClient(
-            host=self.host,
-            port=self.port,
-            user=self.user,
-            password=self.password,
-            timeout=60
-        )
-
         # Get Namecoin-based Domain Info from Namecoin Blockchain
-        nc_domain = client.get_domain(domains[1])
+        nc_domain = self.nc_name_resolver.name_show(domains[1])
         if not nc_domain or not nc_domain.get('value'):
             log.error('No Name Value Data Found for Namecoin-based Domain Name: d/%s' % domains[1])
             raise NamecoinValueException('No Name Value Data Found for: d/%s' % domains[1])
